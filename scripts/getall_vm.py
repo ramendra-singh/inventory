@@ -117,7 +117,7 @@ def PrintVmInfo(vm, host,user,password,pattern, depth=1):
 		print ('Matching the pattern [%s] in %s' % (vm.summary.config.name,
 													  pattern_list))
 		for _pattern in pattern_list:
-			if re.search( _pattern, vm.summary.config.name):
+			if re.search( _pattern, vm.summary.config.name, re.IGNORECASE):
 				print ("Found a Match")
 				print(array_item)
 				vm_list.append(array_item)
