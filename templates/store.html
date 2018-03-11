@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>{{ theme }}</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/bootstrap-select.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/datatables.min.css"/>
+
+    <style>
+    body {
+        padding-top: 35px;
+    }
+    .btn-round {
+        background-color: #d23f31;
+        border-radius: 999em;
+        width: 100px;
+        height: 100px;
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+        line-height: 1;
+        font-size: 36px;
+        position: relative;
+        cursor: pointer;
+        display: inline-block;
+    }
+    .btn-round span {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        margin-top: -22px;
+        color: #FFF;
+    }
+    .green { background-color: #57A429; }
+    .blue { background-color: #38818F;}
+    .orange { background-color: #D28031; }
+    .form-group.required .control-label:after {
+            content:"*";
+            color:red;
+        }
+    .colorgraph {
+        height: 5px;
+        border-top: 0;
+        background: #c4e17f;
+        border-radius: 5px;
+        background-image: -webkit-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+        background-image: -moz-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+        background-image: -o-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+        background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+    }
+    </style>
+
+
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/bootstrap-select.js"></script>
+    <script type="text/javascript" src="../static/js/datatable.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#example2').dataTable( {
+                "sAjaxSource": "{{ url_for('get_store_data') }}",
+            });
+        } );
+    </script>
+
+
+</head>
+
+
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+
+                <a class="navbar-brand" href="/dashboard">{{ theme }}</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/dashboard">Inventory</a>
+                    </li>
+                    <li>
+                        <a href="/settings">Settings</a>
+                    </li>
+                    <li>
+                        <a href="/store">Store</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <div class="container">
+        <!-- Page Heading/Breadcrumbs -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class="page-header">Host Configuration
+                </h3>
+
+            </div>
+        </div>
+        <div class="row" >
+
+            <div class="col-lg-12">
+
+                <form action="javascript:void(0)">
+                    <div class="form-group required">
+                        <label >Host Name</label>
+                        <input type="text" class="form-control" id="ahostname"
+                               required="required"
+                               placeholder="IP/Hostname">
+                    </div>
+                     <div class="form-group required">
+                        <label >Username</label>
+                        <input type="text" class="form-control" id="ausername"
+                               required="required"
+                               placeholder="Username">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Password</label>
+                        <input type="password" class="form-control"
+
+                               id="apassword" placeholder="Password">
+                    </div>
+
+                    <div class="form-group">
+                        <label >Key</label>
+                        <textarea class="form-control" rows="7" id="key"
+                               placeholder="Key"></textarea>
+                    </div>
+                    <div align="center">
+                    <button tyep="button" class="btn btn-primary"
+                            id="store">Save
+                    </button>
+                    <br><br>
+                        <div class="alert" id="result">
+                            <div id="loaderDiv"><img style="display:none"
+                                src ="../static/images/loader.gif"></div>
+                        </div>
+                    </div>
+                </form>
+
+                <hr>
+                <table class="table table-striped" id="example2">
+                  <thead>
+        			<tr>
+        				{% for col in columns %}
+        				<th>{{ col }}</th>
+        				{% endfor %}
+        			</tr>
+        		</thead>
+                  <tbody>
+
+                  </tbody>
+                </table>
+
+            </div>
+                <!-- /.panel-group -->
+            </div>
+            <!-- /.col-lg-12 -->
+
+
+
+
+    </div>
+
+
+    <script src="../static/js/testauto.js"></script>
+</body>
