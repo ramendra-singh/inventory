@@ -278,10 +278,13 @@ def delete_task_data():
 		vcenter_user = data[2]
 		vcenter_password = data[3]
 
-		cmd = 'python ./scripts/shutdown_vm.py  -s ' + vcenter + ' -u ' \
-			  + vcenter_user + ' -p \"' + vcenter_password + '\" -v ' + task_id
-		output = cmdline(cmd)
-		print output[0]
+		try:
+			cmd = 'python ./scripts/shutdown_vm.py  -s ' + vcenter + ' -u ' \
+				  + vcenter_user + ' -p \"' + vcenter_password + '\" -v ' + task_id
+			output = cmdline(cmd)
+		except Exception as e:
+			app.logger.info("Shutdwon operation is failed.")
+			print output[0]
 		app.logger.info("Command Running On System :")
 		app.logger.info("==========================")
 		app.logger.info(cmd)
