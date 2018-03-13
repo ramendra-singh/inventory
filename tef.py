@@ -99,7 +99,7 @@ def cmdline(command):
 		shell=True
 	)
 	app.logger.info(process.communicate()[0])
-	return process.communicate()[0]
+	return process.returncode
 
 
 @app.route('/')
@@ -277,20 +277,6 @@ def delete_task_data():
 		vcenter = data[1]
 		vcenter_user = data[2]
 		vcenter_password = data[3]
-
-		try:
-			cmd = 'python ./scripts/shutdown_vm.py  -s ' + vcenter + ' -u ' \
-				  + vcenter_user + ' -p \"' + vcenter_password + '\" -v ' + task_id
-			output = cmdline(cmd)
-		except Exception as e:
-			app.logger.info("Shutdwon operation is failed.")
-			print output[0]
-		app.logger.info("Command Running On System :")
-		app.logger.info("==========================")
-		app.logger.info(cmd)
-		app.logger.info("==========================")
-		app.logger.info("Output:")
-		app.logger.info(output[0])
 
 		cmd = 'python ./scripts/destroy_vm.py  -s ' + vcenter + ' -u ' \
 			  + vcenter_user + ' -p \"' + vcenter_password + '\" -v ' + task_id
