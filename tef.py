@@ -99,7 +99,9 @@ def cmdline(command):
 		shell=True
 	)
 	app.logger.info(process.communicate()[0])
-	return process.returncode
+	output = process.returncode
+	app.logger.info("Output Of Running Command:" + str(output))
+	return output
 
 
 @app.route('/')
@@ -280,16 +282,12 @@ def delete_task_data():
 
 		cmd = 'python ./scripts/destroy_vm.py  -s ' + vcenter + ' -u ' \
 			  + vcenter_user + ' -p \"' + vcenter_password + '\" -v ' + task_id
-		output = cmdline(cmd)
-		print output[0]
-		app.logger.info("Command Running On System :")
-		app.logger.info("==========================")
-		app.logger.info(cmd)
-		app.logger.info("==========================")
-		app.logger.info("Output:")
-		app.logger.info(output[0])
+		try:
+			output = cmdline(cmd)
+		except Exception as e:
+			pass
 
-		retrun_output = output[0]
+		retrun_output = output
 
 		if retrun_output != -1:
 			delete_stmt = (
@@ -304,7 +302,7 @@ def delete_task_data():
 	finally:
 		cur.close()
 
-	return json.dumps({'html': output[0]})
+	return json.dumps({'html': 'VM Deleted successfully.'})
 
 
 @app.route('/deleteProcess', methods=['POST', 'GET'])
@@ -331,13 +329,7 @@ def delete_trun_process():
 		cmd = 'python ./scripts/shutdown_vm.py  -s ' + vcenter + ' -u ' \
 			  + vcenter_user + ' -p \"' + vcenter_password + '\" -v ' + _ids
 		output = cmdline(cmd)
-		print output[0]
-		app.logger.info("Command Running On System :")
-		app.logger.info("==========================")
-		app.logger.info(cmd)
-		app.logger.info("==========================")
-		app.logger.info("Output:")
-		app.logger.info(output[0])
+
 
 	except Exception as e:
 		msg = 'Error while powering off vm.CMD : [%s]' % (cmd)
@@ -345,7 +337,7 @@ def delete_trun_process():
 	finally:
 		cur.close()
 
-	return json.dumps({'html': output[0]})
+	return json.dumps({'html': 'Powered Off vm successfully.'})
 
 
 @app.route('/poweron', methods=['POST', 'GET'])
@@ -372,21 +364,14 @@ def poweron_vm():
 		cmd = 'python ./scripts/poweron_vm.py  -s ' + vcenter + ' -u ' \
 			  + vcenter_user + ' -p \"' + vcenter_password + '\" -v ' + _ids
 		output = cmdline(cmd)
-		print output[0]
-		app.logger.info("Command Running On System :")
-		app.logger.info("==========================")
-		app.logger.info(cmd)
-		app.logger.info("==========================")
-		app.logger.info("Output:")
-		app.logger.info(output[0])
-
+		
 	except Exception as e:
 		msg = 'Error while powering on vm.CMD : [%s]' % (cmd)
 		return json.dumps({'html': msg, 'result': 'failure'})
 	finally:
 		cur.close()
 
-	return json.dumps({'html': output[0]})
+	return json.dumps({'html': 'Powered on VM successfully.'})
 
 
 @app.route('/refresh', methods=['POST', 'GET'])
