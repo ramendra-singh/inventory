@@ -1,0 +1,23 @@
+version: '2'
+services:
+
+  inventory:
+    build: inventory/.
+    ports:
+      - "5003:5002"
+    links:
+      - db
+    depends_on:
+      - db
+    environment:
+       MYSQL_ROOT_USER: root
+       MYSQL_ROOT_PASSWORD: inventory
+       logo: AppOrbit
+
+  db:
+    build: db/.
+    volumes:
+      - /var/lib/mysql
+    environment:
+       MYSQL_ROOT_USER: root
+       MYSQL_ROOT_PASSWORD: inventory
